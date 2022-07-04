@@ -1,0 +1,112 @@
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>js.Pr.St.TA</title>
+</head>
+
+<body>
+    <style>
+        textarea {
+            margin-bottom: 10px;
+        }
+        input {
+            display: inline;
+            margin-left: 0px;
+        }
+        ul {
+            margin-top: 3px;
+            padding: 0px;
+        }
+        li {
+            list-style-type: none;
+        }
+    </style>
+	<div>Анализатор текста. Для начала необходимо выбрать интересующие чекбоксы, далее в текстареа ввести фразу и убрать фокус с текстареа.</div>
+    <textarea id="text" cols="30" rows="10"></textarea>
+    <div>
+        <div>
+            <input type="checkbox" name="" class="words">
+            <label for="words">Count of words</label>
+        </div>
+        <div>
+            <input type="checkbox" name="" class="symbols">
+            <label for="symbols">Count of symbols</label>
+        </div>
+        <div>
+            <input type="checkbox" name="" class="letters">
+            <label for="letters">Count of letters</label>
+        </div>
+        <div class="percent">
+            <input type="checkbox" name="" class="percent">
+            <label for="percent">Percent of symbols</label>
+        </div>
+    </div>
+    <script>
+        let textarea = document.querySelector("#text");
+        function createListFromObj(obj, sumOfProps) {
+            let list = document.createElement("ul");
+            for (let prop in obj) {
+                let li = document.createElement("li");
+                li.innerHTML = `"${prop}": ${(obj[prop] / sumOfProps * 100).toFixed(2)}%`;
+                list.appendChild(li);
+            }
+            document.querySelector("div.percent").appendChild(list);
+        }
+        let functions = {
+            words: function () {
+                let array = textarea.value.split(" ");
+                let i = 0;
+                for (let item of array) {
+                    i++;
+                }
+                return i;
+            },
+            symbols: function () {
+                let array = textarea.value.split("");
+                let i = 0
+                for (let item of array) {
+                    i++;
+                }
+                return i;
+            },
+            letters: function () {
+                let array = textarea.value.split("");
+                let i = 0
+                for (let item of array) {
+                    if (item != " ") {
+                        i++;
+                    }
+                }
+                return i;
+            },
+            percent: function () {
+                let obj = {};
+                let i = 0;
+                let result = "";
+                let array = textarea.value.split("");
+                for (let item of array) {
+                    obj[item] == undefined ? obj[item] = 1 : obj[item]++;
+                    i++;
+                }
+                createListFromObj(obj, i);
+            }
+        };
+        textarea.addEventListener("blur", function func() {
+            let inputs = document.querySelectorAll("input");
+            for (let checkbox of inputs) {
+                if (checkbox.checked && checkbox.className != "percent") {
+                    document.querySelector(`label[for=${checkbox.className}]`).innerHTML += ` - ${functions[checkbox.className]()}`;
+                } else if (checkbox.checked && checkbox.className == "percent") {
+                    functions[checkbox.className]();
+                } 
+
+            }
+            this.removeEventListener("blur", func);
+        });
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,125 @@
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>js.Pm.Mn.IHE</title>
+</head>
+
+<body>
+    <style>
+        #monthYearblock {
+            display: inline-block;
+            width: 120px;
+            padding: 0px;
+        }
+
+        #header {
+            text-align: center;
+        }
+
+        #calendar {
+            display: inline-block;
+            width: 600px;
+        }
+
+        a {
+            text-decoration: none;
+            color: black;
+        }
+
+
+        ul {
+            display: inline-block;
+            align-content: center;
+            padding: 0px;
+            margin-top: 10px;
+        }
+
+        li {
+            padding: 3px;
+            display: inline;
+        }
+
+        .today {
+            background-color: grey;
+            border: 1px #000 solid;
+            color: white;
+        }
+    </style>
+	<div>Линейный календарь</div>
+    <div id="wrapper">
+        <div id="calendar">
+            <div id="header">
+                <a id="previous" href="#">←</a>
+                <div id="monthYearblock"></div>
+                <a id="next" href="#">→</a>
+            </div>
+            <ul id="daysList">
+
+            </ul>
+        </div>
+
+    </div>
+    <script>
+        let calendar = document.querySelector("#calendar");
+        let date = new Date();
+        let displayedMonth = date.getMonth();
+        let displayedYear = date.getFullYear();
+        let Months = [
+            "Январь",
+            "Февраль",
+            "Март",
+            "Апрель",
+            "Май",
+            "Июнь",
+            "Июль",
+            "Август",
+            "Сентябрь",
+            "Октябрь",
+            "Ноябрь",
+            "Декабрь"
+        ];
+        function displayDays() {
+            let daysList = document.querySelector("#daysList");
+            calendar.removeChild(daysList);
+            daysList = document.createElement("ul");
+            daysList.id = "daysList";
+            let lastDay = new Date(displayedYear, displayedMonth + 1, 0).getDate();
+            for (let i = 1; i <= lastDay; i++) {
+                let day = document.createElement("li");
+                day.innerHTML = i;
+                if (+new Date(displayedYear, displayedMonth, i) == +new Date(date.getFullYear(), date.getMonth(), date.getDate())) {
+                    day.classList.add("today");
+                }
+                daysList.appendChild(day);
+            }
+            calendar.appendChild(daysList);
+        };
+        let monthYearblock = document.querySelector("#monthYearblock");
+        monthYearblock.innerHTML = ` ${Months[displayedMonth]} ${displayedYear}`;
+        displayDays();
+        
+        previous.addEventListener("click", function () {
+            displayedMonth--;
+            if (displayedMonth < 0) {
+                displayedMonth = 11;
+                displayedYear--;
+            }
+            monthYearblock.innerHTML = ` ${Months[displayedMonth]} ${displayedYear}`;
+            displayDays();
+        })
+        next.addEventListener("click", function () {
+            displayedMonth++;
+            if (displayedMonth > 11) {
+                displayedMonth = 0;
+                displayedYear++;
+            }
+            monthYearblock.innerHTML = ` ${Months[displayedMonth]} ${displayedYear}`;
+            displayDays();
+        })
+    </script>
+</body>
+
+</html>

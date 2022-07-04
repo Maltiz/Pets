@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <style>
+        body {
+            background-color: black;
+        }
+
+        .wrapper {
+            display: inline;
+            width: 110px;
+            height: 150px;
+        }
+
+        .steps {
+            width: inherit;
+            text-align: center;
+            color: #fff;
+            font-size: 30px;
+            font-weight: bold;
+        }
+
+        td {
+            border: 1px #fff solid;
+            width: 30px;
+            height: 30px;
+        }
+
+        .red {
+            background-color: red;
+        }
+
+        .green {
+            background-color: green;
+        }
+
+        .blue {
+            background-color: blue;
+        }
+    </style>
+	<div style="color: #fff">Необходимо за наименьшее колличство кликов закрасить все ячейки в один цвет.</div>
+    <div class="wrapper">
+
+        <table class="field">
+
+        </table>
+    </div>
+</body>
+<script>
+    let field = document.querySelector(".field");
+    let wrapper = document.querySelector(".wrapper");
+    let cols = 3;
+    let rows = 3;
+    let count = 0;
+    let colors = ["red", "green", "blue"];
+    
+    function addColor(array) {
+        return array[Math.floor(Math.random() * array.length)];
+    };
+    function changeColor(classname, array) {
+        if (array.indexOf(classname) === array.length - 1) {
+            return array[0];
+        } else {
+            return array[array.indexOf(classname) + 1];
+        }
+    };
+    // function minimalCountOfSteps(colors) {  
+    //     let array = [];    
+    //     for (let color of colors) {
+    //         array.push(document.querySelectorAll(`.${color}`).length);
+    //     }
+    //     let indexOfMax = array.indexOf(Math.max.apply(array));
+    //     for (let item of array) {
+    //         if (item != array[max]) {
+                
+    //         }
+    //     }
+    // }
+
+    for (let i = 1; i <= rows; i++) {
+        field.appendChild(document.createElement("tr"));
+    }
+    for (let row of document.querySelectorAll("tr")) {
+        for (let i = 1; i <= cols; i++) {
+            let cell = document.createElement("td");
+            cell.classList.add(addColor(colors));
+            row.appendChild(cell);
+        }
+    }
+    let steps = document.createElement("div");
+    steps.innerHTML = 0;
+    steps.classList.add("steps");
+    wrapper.prepend(steps);
+
+    for (let cell of document.querySelectorAll("td")) {
+        
+        cell.addEventListener("click", function () {
+            count++;
+            steps.innerHTML = count;
+            cell.className = changeColor(cell.className, colors);
+            if (document.getElementsByClassName(cell.className).length === cols * rows) {
+                alert(`You win for ${count} steps!`);
+            }
+
+        })
+           
+    }
+</script>
+
+</html>

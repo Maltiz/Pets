@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>js.Pr.St.Auc</title>
+</head>
+
+<body>
+    <style>
+        #parent {
+            position: relative;
+        }
+
+        #elem {
+            padding: 5px;
+            font-size: 18px;
+        }
+
+        #parent ul {
+            position: absolute;
+            margin: 0;
+            padding: 0;
+            list-style-type: none;
+            background-color: white;
+        }
+
+        #parent li {
+            border: 1px solid gray;
+            font-size: 18px;
+            padding: 5px;
+        }
+
+        #parent li:hover {
+            border: 1px solid black;
+            cursor: pointer;
+        }
+    </style>
+	<div>Автодополнение. Для ввода доступно три слова: Kaliningrad, Krasnodar, Krasnoyarsk.</div>
+    <div id="parent">
+        <input id="elem">
+        <ul id="list"></ul>
+    </div>
+    <script>
+        let cities = ["Kaliningrad", "Krasnodar", "Krasnoyarsk"];
+        let parent = document.querySelector("#parent");
+        let input = document.querySelector("#elem");
+        let list = document.querySelector("#list");
+
+        input.addEventListener("keyup", function () {
+            document.querySelector("#list").remove();
+            let list = document.createElement("ul");
+            list.id = "list";
+            cities.filter((elem) => {
+                if (elem.startsWith(input.value)) {
+                    let li = document.createElement("li");
+                    li.innerHTML = elem;
+                    list.appendChild(li);
+                };
+            });
+            parent.appendChild(list);
+            if (input.value === "") {
+                for (li of list.querySelectorAll("li")) {
+                    li.remove();
+                }
+            }
+        });
+
+    </script>
+</body>
+
+</html>

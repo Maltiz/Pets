@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>js.Pr.St.Prd</title>
+</head>
+
+<body>
+    <style>
+        #parent {
+            text-align: center;
+        }
+
+        #parent>* {
+            margin-bottom: 10px;
+        }
+
+        #timer {
+            font-size: 18px;
+        }
+
+        #text {
+            font-size: 17px;
+            font-style: italic;
+            width: max-content;
+            margin: 0 auto;
+        }
+
+        button {
+            padding: 5px 10px;
+            font-size: 15px;
+            cursor: pointer;
+        }
+
+        button:not(.active) {
+            display: none;
+        }
+    </style>
+	<div>Предсказания</div>
+    <div id="parent">
+        <div id="timer">?</div>
+        <div id="text"></div>
+        <button id="start" class="active">узнать свою судьбу</button>
+        <button id="stop">получить предсказание</button>
+    </div>
+    <script>
+        let timer = document.querySelector("#timer"),
+            text = document.querySelector("#text"),
+            startBtn = document.querySelector("#start"),
+            stopBtn = document.querySelector("#stop"),
+            predictions = {
+            1: "Не выходи на улицу!",
+            2: "Не ходи без шапки, простудишься",
+            3: "Всё могло быть еще хуже..",
+            4: "Ты забыл покормить кота.. Опять..",
+            5: "А утюг выключил?",
+            6: "Сегодня стоит усердно поработать",
+            7: "Раслабься, побудь дома",
+            8: "А сегодня хороший день для развлечений",
+            9: "Бросай работу, едь на моря",
+            10: "С друзьями пора и пивка попить",
+        }
+
+        startBtn.addEventListener("click", function () {
+            let addRandomInt = setInterval(function () {
+                timer.innerHTML = Math.ceil(Math.random() * Object.keys(predictions).length);
+            }, 100)
+            startBtn.classList.remove("active");
+            stopBtn.classList.add("active");
+            stopBtn.addEventListener("click", function () {
+                clearInterval(addRandomInt);
+                stopBtn.classList.remove("active")
+                if (Number(timer.innerHTML) <= Object.keys(predictions).length / 2) {
+                    text.style.backgroundColor = "red"
+                } else {
+                    text.style.backgroundColor = "green"
+                }
+                text.innerHTML = predictions[timer.innerHTML]
+            })
+        });
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>js.Pr.St.TS</title>
+</head>
+
+<body>
+    <style>
+        input {
+            font-family: Verdana, Geneva, Tahoma, sans-serif;
+        }
+
+        #available {
+            font-size: 12px;
+            color: rgb(169, 169, 169);
+            font-style: italic;
+            margin: 0;
+
+        }
+
+        #description {
+            font-family: Verdana, Geneva, Tahoma, sans-serif;
+            font-size: 15px;
+        }
+    </style>
+	<div>Справочник HTML тегов. Доступны html, head, body, div, input, ul, ol, li, p</div>
+    <input type="text" placeholder="Введите элемент">
+    <p id="available"></p>
+    <p id="description"></p>
+    <script>
+        let input = document.querySelector("input");
+        let text = document.querySelector("#description");
+        let data = {
+            html: "Корневой элемент HTML-документа. Сообщает браузеру, что это HTML-документ.",
+            head: "Элемент-контейнер для метаданных HTML-документа",
+            body: "Представляет тело документа (содержимое, не относящееся к метаданным документа).",
+            div: "Элемент-контейнер для разделов HTML-документа. Используется для группировки блочных элементов.",
+            input: "Создает многофункциональные поля формы, в которые пользователь может вводить данные.",
+            ul: "Создает маркированный список.",
+            ol: "Упорядоченный нумерованный список. Нумерация может быть числовая или алфавитная.",
+            li: "Элемент маркированного или нумерованного списка.",
+            p: "Параграфы в тексте.",
+        }
+
+        document.querySelector("#available").innerHTML = `Доступные элементы: ${Object.keys(data).toString()}`;
+
+        input.addEventListener("keyup", function (event) {
+            let value = this.value.toLowerCase();
+            if (event.code == "Enter") {
+                if (this.value === "") {
+                    text.innerHTML = `Вы не ввели элемент`;
+                } else if (Object.keys(data).includes(value)) {
+                    text.innerHTML = data[value];
+                } else {
+                    text.innerHTML = `Описание этого элемента пока отсутствует`;
+                }
+            }
+        })
+    </script>
+</body>
+
+</html>
